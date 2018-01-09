@@ -1,0 +1,169 @@
+.login_tag{
+    max-width: 500px;
+    width: 75%;
+    margin: 100px auto 0;
+    background: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.form_signin {
+    margin: 5% 10%;
+    padding-bottom: 35px;
+}
+
+
+
+/*
+ * mask
+ * --------------------------------------------------
+ */
+
+.mask_area {
+    display: none;
+}
+
+.mask_area .mask {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    filter: alpha(opacity=50);
+    opacity: .5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
+#sidebar .list-group .active {
+    z-index: 0;
+}
+
+/*
+ * loading
+ * --------------------------------------------------
+ */
+
+#loading {
+    display: none;
+    z-index: 1050;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    margin-top: 0px;
+    top: 0px;
+}
+
+#loading-center {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#loading-center-absolute {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 50px;
+    width: 50px;
+    margin-top: -25px;
+    margin-left: -25px;
+    -moz-border-radius: 50% 50% 50% 50%;
+    -webkit-border-radius: 50% 50% 50% 50%;
+    border-radius: 50% 50% 50% 50%;
+}
+
+.object {
+    width: 7px;
+    height: 7px;
+    background-color: #FFF;
+    position: absolute;
+    -moz-border-radius: 50% 50% 50% 50%;
+    -webkit-border-radius: 50% 50% 50% 50%;
+    border-radius: 50% 50% 50% 50%;
+    -webkit-animation: animate 0.8s infinite;
+    animation: animate 0.8s infinite;
+}
+
+#object_one {
+    top: 6px;
+    left: 6px;
+
+}
+
+#object_two {
+    top: 0px;
+    left: 21px;
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+
+}
+
+#object_three {
+    top: 6px;
+    left: 37px;
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+
+}
+
+#object_four {
+    top: 21px;
+    left: 42px;
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+
+#object_five {
+    top: 37px;
+    left: 37px;
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+#object_six {
+    top: 42px;
+    left: 21px;
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+}
+
+#object_seven {
+    top: 37px;
+    left: 6px;
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+#object_eight {
+    top: 21px;
+    left: 0px;
+    -webkit-animation-delay: 0.7s;
+    animation-delay: 0.7s;
+}
+
+@-webkit-keyframes animate {
+    25% {
+        -ms-transform: scale(1.5);
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+    75% {
+        -ms-transform: scale(0);
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+}
+
+@keyframes animate {
+    50% {
+        -ms-transform: scale(1.5, 1.5);
+        -webkit-transform: scale(1.5, 1.5);
+        transform: scale(1.5, 1.5);
+    }
+    100% {
+        -ms-transform: scale(1, 1);
+        -webkit-transform: scale(1, 1);
+        transform: scale(1, 1);
+    }
+}

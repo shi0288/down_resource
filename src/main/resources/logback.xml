@@ -1,0 +1,32 @@
+<configuration>    
+    <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,,,, -->    
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} [%file:%line] - %msg%n</pattern>   
+        </encoder>
+    </appender>
+    <appender name="daily" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <Key>file_name</Key>
+            <DefaultValue>unknown</DefaultValue>
+        </discriminator>
+        <sift>
+            <appender name="FILE-${file_name}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <fileNamePattern>log/${file_name}.%d{yyyy-MM-dd}.log</fileNamePattern>
+                    <maxFileSize>64MB</maxFileSize>
+                </rollingPolicy>
+                <maxHistory>30</maxHistory>
+                <Append>true</Append>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%file:%line] - %msg%n</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="stdout" />
+    </root>
+
+</configuration>
