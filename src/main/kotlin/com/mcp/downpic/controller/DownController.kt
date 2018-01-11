@@ -2,6 +2,7 @@ package com.mcp.downpic.controller
 
 import com.mcp.downpic.service.PictureService
 import com.mcp.downpic.service.RecordService
+import com.mcp.downpic.service.TemplateService
 import com.mcp.downpic.service.UserService
 import com.mcp.downpic.util.Source
 import com.mcp.fastcloud.util.Result
@@ -36,6 +37,9 @@ class DownController : BaseController() {
 
     @Autowired
     private lateinit var recordService: RecordService
+
+    @Autowired
+    private lateinit var templateService: TemplateService
 
     @RequestMapping("startUpload")
     fun startUpload(
@@ -86,10 +90,10 @@ class DownController : BaseController() {
                 }
             }
             if (pictureService.addTask(url, user.id!!, source)) {
-                return true
+                return Result()
             }
         }
-        return false
+        return Result(9999, "添加失败")
     }
 
     @RequestMapping("list")
@@ -101,7 +105,10 @@ class DownController : BaseController() {
         val username = this.getUser()
         if (username != null) {
             val user = userService.get(username)
-            return Result(recordService.findByPage(user.id!!, page, 20))
+            return Result(templateService.parse(
+                    "elements/picture_list.ftl", mapOf(
+                    "list" to recordService.findByPage(user.id!!, page, 20))
+            ))
         }
         return Result(ResultCode.OVER)
     }

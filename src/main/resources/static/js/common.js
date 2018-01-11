@@ -54,7 +54,7 @@ jQuery.extend({
             data: cond,
             success: function (result) {
                 after();
-                if (result.code == 0) {
+                if (result.code == 10000) {
                     cb(result);
                 } else {
                     if (errCb) {
@@ -89,7 +89,7 @@ jQuery.extend({
             data: self.serialize(),
             success: function (result) {
                 after();
-                if (result.code == 0) {
+                if (result.code == 10000) {
                     cb(result);
                 } else {
                     if (errCb) {
@@ -206,26 +206,4 @@ $(function () {
             })
         })
     }
-
-
-    $('.login_btn').on('click', function () {
-        var self = $(this);
-        self.button("loading");
-        if ($("#username").val() == null || $("#username").val() == '') {
-
-        }
-        $.localAjax('/login', {username: $("#username").val(), password: $("#password").val()}, function (result) {
-            if(result.code=10000){
-
-            }
-            self.button('reset');
-
-        }, function (result) {
-            console.log(result);
-            self.button('reset');
-            alert(result.msg);
-        });
-    })
-
-
 })

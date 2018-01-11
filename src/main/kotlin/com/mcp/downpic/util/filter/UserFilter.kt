@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse
 /**
  * Created by shiqm on 2017-12-28.
  */
-@WebFilter(filterName = "userFilter", urlPatterns = arrayOf("/user/*"))
+@WebFilter(filterName = "userFilter", urlPatterns = arrayOf("/user/*","/file/*"))
 class UserFilter : Filter {
 
     override fun destroy() {

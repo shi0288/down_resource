@@ -20,7 +20,7 @@ class FileTask {
     @Autowired
     private lateinit var pic58Service: Pic58Service
 
-    @Scheduled(cron = "0/5 * * * * ?")
+    //@Scheduled(cron = "0/5 * * * * ?")
     fun downFile() {
         val picture = pictureService.getReadyPicture()
         if (picture != null) {
