@@ -12,10 +12,10 @@
 
     <#list list as item >
     <tr>
-        <th>${(item.data_time)!''}</th>
+        <#--<th>${timeCover(item.data_time)}</th>-->
         <th>${(item.title)!''}</th>
-        <th>${(item.source)!''}</th>
-        <th>${(item.status)!''}</th>
+        <th>${consCover('source',item.source)}</th>
+        <th>${consCover('status',item.status)}</th>
         <th>下载</th>
     </tr>
     </#list>

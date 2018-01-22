@@ -30,7 +30,7 @@ class Pic58Service : DownService {
     private lateinit var recordDao: RecordDao
 
     override fun fileDown(picture: Picture): Boolean {
-        val cookies = "qt_visitor_id=%22799399578c2a9861f6e6490e94777b97%22; qt_ur_type=2; message2=1; user-browser=%22baidu%22; awake=0; imgCodeKey=%220f598fe08e7662d60761750912712543%22; loginCodeKey=%22loginCode02b371228447146fc25fb8905f68ea72%22; referer=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2Findex.php%3Fm%3Duserinfo%26a%3DgetImgCaptch%26v%3D1514361442228%22; auth_id=%227966495%7CSC+%5Cu2116+dream%7C1514966313%7Ce02f7f11c3c590a4f50270676e2a81ee%22; success_target_path=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2Findex.php%3Fm%3Duserinfo%26a%3DgetImgCaptch%26v%3D1514361442228%22; ssid=%225a4352a91cfd96.01925446%22; _auth_dl_=Nzk2NjQ5NXwxNTE0OTY2MzEzfDcyNDViYjliOTJkMjQxNDI2ZDdkNThkNmM5ZWY2MzM3; is_pay1514304000=%221%22; censor=%2220171228%22; Hm_lvt_644763986e48f2374d9118a9ae189e14=1514361262,1514371348,1514428062,1514429327; Hm_lpvt_644763986e48f2374d9118a9ae189e14=1514429369"
+        val cookies = "qt_visitor_id=%22799399578c2a9861f6e6490e94777b97%22; qt_ur_type=2; message2=1; user-browser=%22baidu%22; awake=0; loginBackUrl=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2F%22; referer=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2Findex.php%3Fm%3Duserinfo%26a%3DgetImgCaptch%26v%3D1515997881002%22; imgCodeKey=%222a3ac65b08a7111364b678a08404759b%22; loginCodeKey=%22loginCode39e09efb121a9f46845eb24e3aedc0ef%22; auth_id=%227966495%7CSC+%5Cu2116+dream%7C1516602738%7C9a0e42a2e7b0b5d6b44614ad16cc9191%22; success_target_path=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2Findex.php%3Fm%3Duserinfo%26a%3DgetImgCaptch%26v%3D1515997881002%22; ssid=%225a5c4af26fceb2.57869938%22; _auth_dl_=Nzk2NjQ5NXwxNTE2NjAyNzM0fDA4MjRmZTI5NmRlN2E1YmE3YTc5M2M3M2UzMDU1Zjkw; censor=%2220180115%22; Hm_lvt_644763986e48f2374d9118a9ae189e14=1514429327,1515575940,1515997868,1515998133; is_pay1515945600=%221%22; Hm_lpvt_644763986e48f2374d9118a9ae189e14=1515998755"
         val url = "https://dl.58pic.com/${picture.outerId}.html"
         val result = HttpClientWrapper.get(url, block = { httpRequest ->
             httpRequest.addHeader("Cookie", cookies)
@@ -44,6 +44,7 @@ class Pic58Service : DownService {
             httpRequest.addHeader("Accept-Language", "zh-CN,zh;q=0.9")
             httpRequest
         })
+        println(result)
         val document = Jsoup.parse(result)
         val elements = document.getElementsByAttribute("attr-type")
         var downUrl = ""

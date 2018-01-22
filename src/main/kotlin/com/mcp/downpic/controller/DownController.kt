@@ -105,10 +105,10 @@ class DownController : BaseController() {
         val username = this.getUser()
         if (username != null) {
             val user = userService.get(username)
-            return Result(templateService.parse(
+            return templateService.parse(
                     "elements/picture_list.ftl", mapOf(
                     "list" to recordService.findByPage(user.id!!, page, 20))
-            ))
+            )
         }
         return Result(ResultCode.OVER)
     }

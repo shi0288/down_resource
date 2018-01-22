@@ -1,6 +1,7 @@
 package com.mcp.downpic.service
 
 import com.mcp.fastcloud.util.Result
+import com.mcp.fastcloud.util.enums.ResultCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
@@ -22,7 +23,7 @@ class TemplateService {
         template.process(values, out)
         val htmlData = out.toString()
         out.flush()
-        return Result(htmlData)
+        return Result(ResultCode.OK.code, htmlData)
     }
 
 
