@@ -7,5 +7,8 @@ import com.mcp.downpic.entity.Picture
  */
 interface DownService {
 
+
+    fun fileAnalysis(picture: Picture):Boolean
+
     fun fileDown(picture: Picture):Boolean
 }

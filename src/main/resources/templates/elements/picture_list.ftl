@@ -12,11 +12,11 @@
 
     <#list list as item >
     <tr>
-        <#--<th>${timeCover(item.data_time)}</th>-->
+        <th>${timeCover(item.data_time)}</th>
         <th>${(item.title)!''}</th>
         <th>${consCover('source',item.source)}</th>
         <th>${consCover('status',item.status)}</th>
-        <th>下载</th>
+        <th><a href="/file/down?name=${item.name}">下载</a></th>
     </tr>
     </#list>
     </tbody>

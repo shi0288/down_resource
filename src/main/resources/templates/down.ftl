@@ -20,7 +20,7 @@
                         <input type="text" class="form-control" name="url" id="url" placeholder="资源地址"/>
                     </div>
                     <div class="col-xs-3  col-md-6">
-                        <button type="button" id="addTask" class="btn btn-primary">添加${consCover('status','2')}</button>
+                        <button type="button" id="addTask" class="btn btn-primary">添加</button>
                     </div>
                 </div>
             </div>

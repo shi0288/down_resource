@@ -25,11 +25,16 @@ class UserService {
 
 
     fun reg(username: String, password: String) {
-        val user = User(id = idsService.generate("user"), username = username, password = password, times = 0)
-        userDao.save(user)
+        if (exist(username, null)) {
+            throw RuntimeException()
+        } else {
+            val user = User(id = idsService.generate("user"), username = username, password = password, times = 0)
+            userDao.save(user)
+        }
+
     }
 
-    fun exist(username: String, password: String): Boolean =
+    fun exist(username: String, password: String?): Boolean =
             userDao.exists(User(username = username, password = password))
 
     fun hasTimes(username: String): Boolean {
@@ -47,7 +52,7 @@ class UserService {
         userDao.inc(User(username = username), "times", number)
     }
 
-    fun hasRecord(uid: Long, picture_id: Long):Boolean = recordDao.exists(Record(uid=uid,picture_id = picture_id))
+    fun hasRecord(uid: Long, picture_id: Long): Boolean = recordDao.exists(Record(uid = uid, picture_id = picture_id))
 
 
 }

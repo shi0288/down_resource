@@ -1,5 +1,6 @@
 package com.mcp.downpic.controller
 
+import com.mcp.downpic.Constants
 import com.mcp.downpic.service.PictureService
 import com.mcp.downpic.service.RecordService
 import com.mcp.downpic.service.TemplateService
@@ -111,6 +112,33 @@ class DownController : BaseController() {
             )
         }
         return Result(ResultCode.OVER)
+    }
+
+    @RequestMapping("down")
+    fun down(@Check name: String) {
+        //第一步：设置响应类型
+        httpResponse.contentType = "application/force-download"//应用程序强制下载
+        //第二读取文件
+        val path = Constants.SAVE_PATH + "/" + name
+        val `in` = FileInputStream(path)
+        //设置响应头，对文件进行url编码
+        httpResponse.setHeader("Content-Disposition", "attachment;filename=" + name)
+        httpResponse.setContentLength(`in`.available())
+        val out = httpResponse.outputStream
+        val b = ByteArray(1024)
+        `in`.use {
+            while (true) {
+                var len = `in`.read(b)
+                if (len != -1) {
+                    out.write(b, 0, len)
+                } else {
+                    break
+                }
+            }
+            out.flush()
+            out.close()
+        }
+        `in`.close()
     }
 
 

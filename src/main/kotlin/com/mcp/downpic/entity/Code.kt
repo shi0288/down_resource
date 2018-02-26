@@ -10,7 +10,8 @@ import org.springframework.data.annotation.Id
 @PoKo
 data class Code(
         @Id
-        var id: String,
+        var id: String? = null,
         var seq: String? = null,
-        var times:Long
+        var times: Int? = null,
+        var status: Short? = null
 )

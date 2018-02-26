@@ -5,6 +5,7 @@ import com.mcp.downpic.dao.PictureDao
 import com.mcp.downpic.dao.RecordDao
 import com.mcp.downpic.entity.Picture
 import com.mcp.downpic.entity.Record
+import com.mcp.downpic.util.Source
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.regex.Pattern
@@ -26,6 +27,10 @@ class PictureService {
     @Autowired
     private lateinit var recordDao: RecordDao
 
+    @Autowired
+    private lateinit var pic58Service: Pic58Service
+
+
     fun addTask(url: String, uid: Long, source: Short): Boolean {
         val pattern = Pattern.compile("(?<=/)(\\d+)(?=.html)")
         val matcher = pattern.matcher(url)
@@ -38,7 +43,11 @@ class PictureService {
                 return true
             }
             val picture = Picture(id = idsDao.generate("picture").seq, outerId = temp, source = source, status = 0)
-            pictureDao.save(picture)
+            when (source) {
+                Source.PIC58.code -> {
+                    pic58Service.fileAnalysis(picture)
+                }
+            }
             recordDao.save(Record(id = idsDao.generate("recode").seq, picture_id = picture.id!!, uid = uid))
             return true
         }
@@ -47,7 +56,7 @@ class PictureService {
 
     fun getReadyPicture(): Picture = pictureDao.findAndModify(Picture(status = 0), Picture(status = 1))
 
-    fun get(picture_id:Long):Picture = pictureDao.findById(picture_id)
+    fun get(picture_id: Long): Picture = pictureDao.findById(picture_id)
 
 
 }

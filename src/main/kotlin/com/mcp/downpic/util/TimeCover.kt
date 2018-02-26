@@ -11,7 +11,7 @@ class TimeCover : TemplateMethodModelEx {
     override fun exec(arguments: MutableList<Any?>?): Any? {
         return if (null != arguments && 1 == arguments.size) {
             val key = arguments[0].toString()
-            val date = Date(key.toLong())
+            val date = Date(key.toLong()*1000)
             return SimpleDateFormat("yyyy-MM-dd HH:mm:dd").format(date)
         } else {
             null
