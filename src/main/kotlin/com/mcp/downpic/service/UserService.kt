@@ -42,6 +42,9 @@ class UserService {
         if (user.times!! > 0L) {
             return true
         }
+        if (user.times!! < 0L) {
+            userDao.inc(User(username = username), "times", -user.times!!.toInt())
+        }
         return false
     }
 

@@ -43,8 +43,11 @@ Array.prototype.toRString = function () {
 
 
 jQuery.extend({
-    localAjax: function (url, cond, cb, errCb) {
-        before();
+    localAjax: function (url, cond, cb, errCb,front) {
+        if(front==true){
+        }else{
+            before();
+        }
         $.ajax({
             type: "POST",
             url: url + "?timestamp=" + new Date().getTime(),
@@ -53,7 +56,10 @@ jQuery.extend({
             cache: false,
             data: cond,
             success: function (result) {
-                after();
+                if(front==true){
+                }else{
+                    after();
+                }
                 if (result.code == 10000) {
                     cb(result);
                 } else {
@@ -66,7 +72,10 @@ jQuery.extend({
             },
             error: function (data, status, e)//服务器响应失败处理函数
             {
-                after();
+                if(front==true){
+                }else{
+                    after();
+                }
                 if (errCb) {
                     var result = {};
                     result.msg = '网络错误,请重试！';

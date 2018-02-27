@@ -6,12 +6,15 @@ import com.mcp.downpic.dao.PictureDao
 import com.mcp.downpic.dao.RecordDao
 import com.mcp.downpic.entity.Picture
 import com.mcp.downpic.entity.Record
+import com.mcp.downpic.util.CookiesUtil
 import com.mcp.downpic.util.Source
 import com.mcp.downpic.util.annotation.HttpClientWrapper
 import org.jsoup.Jsoup
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.net.URLEncoder
 import java.util.regex.Pattern
+import javax.servlet.http.HttpServletResponse
 
 /**
  * Created by shiqm on 2017-12-19.
@@ -39,7 +42,6 @@ class Pic58Service : DownService {
             httpRequest.addHeader("Accept-Language", "zh-CN,zh;q=0.9")
             httpRequest
         })
-        println(result)
         val document = Jsoup.parse(result)
         val elements = document.getElementsByAttribute("attr-type")
         var downUrl = ""
@@ -64,7 +66,7 @@ class Pic58Service : DownService {
             }
         }
         picture.title = title
-        picture.downUrl = downUrl
+//        picture.downUrl = downUrl
         picture.data_time = System.currentTimeMillis() / 1000
         picture.path = Constants.SAVE_PATH
         val pattern = Pattern.compile("(?<=/)([A-Za-z0-9.]+)(?=\\?)")
@@ -72,9 +74,46 @@ class Pic58Service : DownService {
         if (matcher.find()) {
             picture.name = matcher.group()
         }
+        if (picture.name.isNullOrEmpty()) {
+            return false
+        }
         pictureDao.save(picture)
         return true
     }
+
+    override fun startDown(picture: Picture, httpResponse: HttpServletResponse) {
+        val url = "https://dl.58pic.com/${picture.outerId}.html"
+        val result = HttpClientWrapper.get(url, block = { httpRequest ->
+            httpRequest.addHeader("Cookie", cookies)
+            httpRequest.addHeader("Host", "dl.58pic.com")
+            httpRequest.addHeader("Cache-Control", "max-age=0")
+            httpRequest.addHeader("Connection", "keep-alive")
+            httpRequest.addHeader("Upgrade-Insecure-Requests", "1")
+            httpRequest.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
+            httpRequest.addHeader("Referer", url)
+            httpRequest.addHeader("Accept-Encoding", "gzip, deflate, br")
+            httpRequest.addHeader("Accept-Language", "zh-CN,zh;q=0.9")
+            httpRequest
+        })
+        val document = Jsoup.parse(result)
+        val elements = document.getElementsByAttribute("attr-type")
+        var downUrl = ""
+        run {
+            elements.forEach {
+                val type = it.attr("attr-type")
+                if (type == "a1") {
+                    downUrl = it.attr("href").toString()
+                    return@run
+                }
+            }
+        }
+        if (downUrl.isNotEmpty()) {
+            CookiesUtil.saveCookies(cookies, "58pic.com", httpResponse)
+            val url = downUrl.split("n=")[0]
+            httpResponse.sendRedirect("${url}n=${URLEncoder.encode(picture.title, "UTF-8")}.${picture.name!!.split(".")[1]}")
+        }
+    }
+
 
     override fun fileDown(picture: Picture): Boolean {
         val result = HttpClientWrapper.downFile(picture.downUrl!!, Constants.SAVE_PATH + "/" + picture.name, { request ->

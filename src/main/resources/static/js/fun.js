@@ -12,7 +12,7 @@ $(function () {
         self.button("loading");
         $.localAjax('/login', {username: $("#username").val(), password: $("#password").val()}, function (result) {
             self.button('reset');
-            window.location.href='/user/down'
+            window.location.href = '/user/down'
         }, function (result) {
             self.button('reset');
             alert(result.msg);
@@ -29,7 +29,7 @@ $(function () {
         self.button("loading");
         $.localAjax('/file/addTask', {url: $("#url").val()}, function (result) {
             self.button('reset');
-            window.location.href='/user/down'
+            window.location.href = '/user/down'
         }, function (result) {
             self.button('reset');
             alert(result.msg);
@@ -51,30 +51,47 @@ $(function () {
             alert("确认密码不能为空");
             return;
         }
-        if($("#regPassword").val()!=$("#regRePassword").val()){
+        if ($("#regPassword").val() != $("#regRePassword").val()) {
             alert("密码与确认密码不同");
             return;
         }
         self.button("loading");
-        $.localAjax('/login', {regUsername: $("#regUsername").val(), regPassword: $("#regPassword").val(), regRePassword: $("#regRePassword").val()}, function (result) {
+        $.localAjax('/reg', {
+            regUsername: $("#regUsername").val(),
+            regPassword: $("#regPassword").val(),
+            regRePassword: $("#regRePassword").val()
+        }, function (result) {
             self.button('reset');
-            window.location.href='/user/down'
+            window.location.href = '/user/down'
         }, function (result) {
             self.button('reset');
             alert(result.msg);
         });
     })
 
-
-
-
-    if($('.picture-body').length==1){
-        $.localAjax('/file/list', {page:1}, function (result) {
+    if ($('.picture-body').length == 1) {
+        $.localAjax('/file/list', {page: 1}, function (result) {
             $('.picture-body').append(result.msg)
+            setTimeout(scan, 5000);
         }, function (result) {
             alert(result.msg);
-        });
+        },true);
+    }
 
+    function scan() {
+        if ($('.picture-body').find('img').length > 0) {
+            $.localAjax('/file/list', {page: 1}, function (result) {
+                if (result.msg.indexOf("img") == -1) {
+                    $('.picture-body').html($(result.msg))
+                }else{
+                    setTimeout(scan, 5000);
+                }
+            }, function (result) {
+                alert(result.msg);
+            },true);
+        } else {
+             setTimeout(scan, 5000);
+        }
     }
 
 

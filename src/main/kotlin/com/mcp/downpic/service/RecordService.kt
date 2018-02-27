@@ -5,6 +5,7 @@ import com.mcp.downpic.dao.RecordDao
 import com.mcp.downpic.entity.Picture
 import com.mcp.downpic.entity.Record
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 /**
@@ -24,9 +25,11 @@ class RecordService {
         val list = recordDao.find(Record(uid = uid), page = page, limit = limit)
         val ids = list.map { it.picture_id }
         if (ids != null) {
-            return pictureDao.findByIds(ids)
+            return pictureDao.findByIds(ids, sorts = Sort.Order(Sort.Direction.DESC, "id"))
         }
         return null
     }
+
+    fun isExsist(uid: Long, picture_id: Long) = recordDao.exists(Record(uid = uid, picture_id = picture_id))
 
 }

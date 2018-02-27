@@ -131,10 +131,13 @@ open class ABaseDao<T, V> {
         return template.findAllAndRemove(query, entityClass)
     }
 
-    fun findByIds(ids: List<V?>): List<T> {
+    fun findByIds(ids: List<V?>, vararg sorts: Sort.Order): List<T> {
         val query = Query()
         //config query
         query.addCriteria(Criteria.where("_id").`in`(ids))
+        if (sorts.isNotEmpty()) {
+            query.with(Sort(sorts.asList()))
+        }
         return template.find(query, entityClass)
     }
 

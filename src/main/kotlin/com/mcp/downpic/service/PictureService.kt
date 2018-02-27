@@ -42,14 +42,19 @@ class PictureService {
                 recordDao.save(Record(id = idsDao.generate("recode").seq, picture_id = picture.id!!, uid = uid))
                 return true
             }
-            val picture = Picture(id = idsDao.generate("picture").seq, outerId = temp, source = source, status = 0)
+            //todo 不再下载
+//            val picture = Picture(id = idsDao.generate("picture").seq, outerId = temp, source = source, status = 0)
+            val picture = Picture(id = idsDao.generate("picture").seq, outerId = temp, source = source, status = 2)
+            var but = false
             when (source) {
                 Source.PIC58.code -> {
-                    pic58Service.fileAnalysis(picture)
+                    but = pic58Service.fileAnalysis(picture)
                 }
             }
-            recordDao.save(Record(id = idsDao.generate("recode").seq, picture_id = picture.id!!, uid = uid))
-            return true
+            if (but) {
+                recordDao.save(Record(id = idsDao.generate("recode").seq, picture_id = picture.id!!, uid = uid))
+                return true
+            }
         }
         return false
     }

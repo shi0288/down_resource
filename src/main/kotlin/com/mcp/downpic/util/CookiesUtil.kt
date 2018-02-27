@@ -1,5 +1,6 @@
 package com.mcp.downpic.util
 
+import net.mcp.aes.AESUtil
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -7,9 +8,9 @@ import javax.servlet.http.HttpServletResponse
 /**
  * Created by shiqm on 2018-01-08.
  */
-object  CookiesUtil {
+object CookiesUtil {
 
-    fun getCookie(key: String,httpRequest: HttpServletRequest): String? {
+    fun getCookie(key: String, httpRequest: HttpServletRequest): String? {
         val cookies = httpRequest.cookies
         if (cookies == null || cookies.isEmpty())
             return null
@@ -18,7 +19,7 @@ object  CookiesUtil {
                 ?.let { cookies[it].value }
     }
 
-    fun saveCookie(key: String, value: String,httpResponse:HttpServletResponse) {
+    fun saveCookie(key: String, value: String, httpResponse: HttpServletResponse) {
         val cookie = Cookie(key, value)
         cookie.path = "/"
         cookie.maxAge = 3600 * 24 * 7
@@ -26,9 +27,20 @@ object  CookiesUtil {
         httpResponse.addCookie(cookie)
     }
 
-    fun saveUser(username: String,httpResponse:HttpServletResponse) {
+    fun saveCookies(cookies: String, domain: String, httpResponse: HttpServletResponse) {
+        cookies.split(";").forEach {
+            val arr = it.split("=")
+            val cookie = Cookie(arr[0].replace(" ", ""),  arr[1].replace(" ", ""))
+            cookie.path = "/"
+            cookie.maxAge = 10
+            cookie.domain = domain
+            httpResponse.addCookie(cookie)
+        }
+    }
+
+    fun saveUser(username: String, httpResponse: HttpServletResponse) {
         val usernameEncrypt = AESUtil.encrypt(username, "yanyan.mcp8.net")
-        CookiesUtil.saveCookie("USER_SESSION",AESUtil.parseByte2HexStr(usernameEncrypt),httpResponse)
+        CookiesUtil.saveCookie("USER_SESSION", AESUtil.parseByte2HexStr(usernameEncrypt), httpResponse)
     }
 
     fun getUser(httpRequest: HttpServletRequest): String? {
@@ -38,7 +50,6 @@ object  CookiesUtil {
         }
         return null
     }
-
 
 
 }
