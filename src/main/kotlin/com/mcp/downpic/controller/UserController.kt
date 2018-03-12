@@ -2,6 +2,7 @@ package com.mcp.downpic.controller
 
 import com.mcp.downpic.dao.CodeDao
 import com.mcp.downpic.entity.Code
+import com.mcp.downpic.service.CodeService
 import com.mcp.downpic.service.UserService
 import com.mcp.downpic.util.CookiesUtil
 import com.mcp.fastcloud.util.Result
@@ -24,6 +25,10 @@ class UserController : BaseController() {
     @Autowired
     private lateinit var codeDao: CodeDao
 
+    @Autowired
+    private lateinit var codeService:CodeService
+
+
 
     @RequestMapping("login")
     fun user(
@@ -44,7 +49,7 @@ class UserController : BaseController() {
     ): Any {
         if (codeDao.exists(Code(seq = code))) {
             val name = CookiesUtil.getUser(httpRequest)
-            if (name.isNullOrEmpty() || codeDao.exists(Code(seq = name))) {
+            if (name.isNullOrEmpty()) {
                 return if (userService.exist(code, null)) {
                     this.saveUser(code)
                     Result()
@@ -71,6 +76,9 @@ class UserController : BaseController() {
 
         return Result(9999, "登录失败")
     }
+
+    @RequestMapping("addCode")
+    fun addCode(): Any = Result(codeService.add())
 
 
     @RequestMapping("reg")

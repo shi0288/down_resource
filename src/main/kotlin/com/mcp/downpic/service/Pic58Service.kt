@@ -1,13 +1,9 @@
 package com.mcp.downpic.service
 
 import com.mcp.downpic.Constants
-import com.mcp.downpic.dao.IdsDao
 import com.mcp.downpic.dao.PictureDao
-import com.mcp.downpic.dao.RecordDao
 import com.mcp.downpic.entity.Picture
-import com.mcp.downpic.entity.Record
 import com.mcp.downpic.util.CookiesUtil
-import com.mcp.downpic.util.Source
 import com.mcp.downpic.util.annotation.HttpClientWrapper
 import org.jsoup.Jsoup
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,7 +22,7 @@ class Pic58Service : DownService {
     @Autowired
     private lateinit var pictureDao: PictureDao
 
-    val cookies = "qt_visitor_id=%22799399578c2a9861f6e6490e94777b97%22; qt_ur_type=2; user-browser=%22baidu%22; awake=0; Hm_lvt_644763986e48f2374d9118a9ae189e14=1519639425; loginBackUrl=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2F%22; referer=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2Findex.php%3Fm%3Duserinfo%26a%3DgetImgCaptch%26v%3D1519639442536%22; imgCodeKey=%224098606848ab4b78b6387a0e70208aae%22; loginCodeKey=%22loginCode77be6539ff58500815e35b1f3cc6444d%22; risk_forbid_login_uid=%227966495%22; qt_risk_visitor_id=%22cb04a0d608ae18f737c3a3cec5584a6c%22; auth_id=%227966495%7CSC+%5Cu2116+dream%7C1520244317%7C389307b366de0e51331872615b9f563f%22; success_target_path=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2Findex.php%3Fm%3Duserinfo%26a%3DgetImgCaptch%26v%3D1519639442536%22; ssid=%225a93dbddbb8557.30710286%22; _auth_dl_=Nzk2NjQ5NXwxNTIwMjQ0MzE0fGZlOTczMTQwYzJiNGU5NGYxOGFmYzk4N2EyZmIwZTQz; censor=%2220180226%22; 2018-02-26-userSign-7966495=1; message2=1; is_pay1519574400=%221%22; Hm_lpvt_644763986e48f2374d9118a9ae189e14=1519639603"
+    val cookies = "qt_visitor_id=%22799399578c2a9861f6e6490e94777b97%22; qt_ur_type=2; qt_risk_visitor_id=%22cb04a0d608ae18f737c3a3cec5584a6c%22; message2=1; awake=0; Hm_lvt_644763986e48f2374d9118a9ae189e14=1519639425,1519697482,1519714231,1520834785; referer=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2Findex.php%3Fm%3Duserinfo%26a%3DgetImgCaptch%26v%3D1520834792690%22; imgCodeKey=%222a41c67e50040ff96cfee27a25c15c32%22; loginCodeKey=%22loginCode451b888662ee9d315da1ef691ccb2cd2%22; risk_forbid_login_uid=%227966495%22; auth_id=%227966495%7CSC+%5Cu2116+dream%7C1521439641%7C4ab00036fd766cf0c83d279faa86d80c%22; success_target_path=%22http%3A%5C%2F%5C%2Fwww.58pic.com%5C%2Findex.php%3Fm%3Duserinfo%26a%3DgetImgCaptch%26v%3D1520834792690%22; ssid=%225aa61919914f18.52322861%22; _auth_dl_=Nzk2NjQ5NXwxNTIxNDM5NjM4fDExMmU1NjM0ODEwNzVkNmFmMzA4ZTRhYjc3MmRjMzIz; censor=%2220180312%22; 2018-03-12-userSign-7966495=1; 1490c6811c510539f99068d1b8b4e2ba=%22111.205.32.2%22; is_pay1520784000=%221%22; Hm_lpvt_644763986e48f2374d9118a9ae189e14=1520848274"
 
     override fun fileAnalysis(picture: Picture): Boolean {
         val url = "https://dl.58pic.com/${picture.outerId}.html"

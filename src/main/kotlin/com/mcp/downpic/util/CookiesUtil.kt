@@ -29,12 +29,16 @@ object CookiesUtil {
 
     fun saveCookies(cookies: String, domain: String, httpResponse: HttpServletResponse) {
         cookies.split(";").forEach {
+            println(it)
             val arr = it.split("=")
             val cookie = Cookie(arr[0].replace(" ", ""),  arr[1].replace(" ", ""))
             cookie.path = "/"
             cookie.maxAge = 10
             cookie.domain = domain
-            httpResponse.addCookie(cookie)
+            try {
+                httpResponse.addCookie(cookie)
+            }catch (e:Exception){}
+
         }
     }
 

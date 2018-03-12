@@ -17,7 +17,23 @@ $(function () {
             self.button('reset');
             alert(result.msg);
         });
-    })
+    });
+
+    $('.login_code_btn').on('click', function () {
+        var self = $(this);
+        if ($("#repCode").val() == null || $("#repCode").val() == '') {
+            alert("激活码不能为空");
+            return;
+        }
+        self.button("loading");
+        $.localAjax('/code', {code: $("#repCode").val()}, function (result) {
+            self.button('reset');
+            window.location.href = '/user/down'
+        }, function (result) {
+            self.button('reset');
+            alert(result.msg);
+        });
+    });
 
 
     $('#addTask').on('click', function () {
@@ -34,7 +50,7 @@ $(function () {
             self.button('reset');
             alert(result.msg);
         });
-    })
+    });
 
 
     $('.reg_btn').on('click', function () {
@@ -67,7 +83,7 @@ $(function () {
             self.button('reset');
             alert(result.msg);
         });
-    })
+    });
 
     if ($('.picture-body').length == 1) {
         $.localAjax('/file/list', {page: 1}, function (result) {

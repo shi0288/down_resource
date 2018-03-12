@@ -130,7 +130,11 @@ class DownController : BaseController() {
                 val picture = pictureService.get(name)
                 when (picture.source) {
                     Source.PIC58.code -> {
-                        pic58Service.startDown(picture, httpResponse)
+                        try {
+                            pic58Service.startDown(picture, httpResponse)
+                        }catch (e:Exception){
+                            e.printStackTrace()
+                        }
                     }
                 }
             }
