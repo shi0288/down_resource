@@ -182,6 +182,11 @@ open class ABaseDao<T, V> {
         template.insert(t)
     }
 
+    fun saveAll(list: List<T>) {
+        template.insertAll(list)
+    }
+
+
     fun remove(t: T): Int = template.remove(t).n
 
     fun updateById(t: T): Int {
